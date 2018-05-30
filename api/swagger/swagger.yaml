@@ -1,0 +1,181 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /clients:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: clientCtrl
+    get:
+      description: Return the list of clients
+      # used as the method name of the controller
+      operationId: getClients
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: number
+          in: query
+          required: false
+          type: string
+        - name: email
+          in: query
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ClientListResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Create a new Client
+      # used as the method name of the controller
+      operationId: createClient
+      produces:
+        - application/json
+      parameters:
+        - name: ClientCreateRequest
+          in: body
+          description: 'Client Information'
+          required: true
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ClientCreateRequest"
+      responses:
+        "201":
+          description: Success
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /clients/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: clientCtrl
+    get:
+      description: Return a client
+      # used as the method name of the controller
+      operationId: getClient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ClientResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Update an existing client
+      # used as the method name of the controller
+      operationId: updateClient
+      parameters:
+        - name: ClientCreateRequest
+          in: body
+          description: 'Client Information'
+          required: true
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ClientCreateRequest"
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Success
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete an existing client
+      # used as the method name of the controller
+      operationId: deleteClient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Success
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
+definitions:
+  ClientCreateRequest:
+    required:
+      - name
+      - phoneNumber
+      - email
+      - company
+      - zipCode
+    properties:
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      email:
+        type: string
+      company:
+        type: string
+      zipCode:
+        type: string
+  ClientListResponse:
+    type: array
+    items:
+        $ref: "#/definitions/ClientResponse"
+  ClientResponse:
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      email:
+        type: string
+      company:
+        type: string
+      zipCode:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string

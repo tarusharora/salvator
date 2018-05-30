@@ -1,0 +1,29 @@
+{
+  "name": "salvator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Salvator - A Crawler Utility",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.1.2",
+    "phantom": "^4.0.12",
+    "restify": "^4.0.2",
+    "swagger-restify-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}
